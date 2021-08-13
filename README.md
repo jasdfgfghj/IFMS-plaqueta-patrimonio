@@ -2,8 +2,10 @@
 
 Geração de código de barras utilizando React Native.
 
-Instalação
+Instalação:
+
 npm install IFMS-plaqueta-patrimonio
 
-Executar
+Executar:
+
 npm start
