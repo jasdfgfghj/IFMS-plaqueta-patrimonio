@@ -4,8 +4,6 @@ import { View, ImageBackground, Text, Image, StyleSheet, TextInput, KeyboardAvoi
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from "@react-navigation/native";
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700;800&display=swap" rel="stylesheet"></link>
-
 const Home = () => {
     //const [codigo, setCodigo] = useState('');
     
@@ -19,18 +17,31 @@ const Home = () => {
             style={{flex: 1}} 
             behavior={Platform.OS === 'android' ? 'height': undefined}
         >
+        
             <ImageBackground 
                 source={require('../../assets/home-background.png')} 
                 style={styles.container}
-                imageStyle={{ width: 274, height: 368 }}
+                imageStyle={{ width: 274, height: 500 }}
             >
+
                 <View style={styles.main}>
-                    <Image source={require('../../assets/logo2.png')} />
-                    <View>
-                        <Text style={styles.title}>Patrimônio</Text>
-                    </View>
+                        <Image 
+                            style={styles.logo}
+                            source={require('../../assets/logo2.png')} 
+                        />
+
+                <View style={styles.bloco}>
+                    <Text style={styles.title}>PATRIMÔNIO</Text>
+                    <Image
+                        style={styles.codigo}
+                        source={{
+                        uri: 'https://barcode.tec-it.com/barcode.ashx?data=00000000&code=Code39&dpi=600',
+                        }}
+                    />  
                 </View>
 
+                </View>
+                
                 <View style={styles.footer}>
                     <TextInput 
                         style={styles.input}
@@ -47,7 +58,7 @@ const Home = () => {
                                 <Icon name="arrow-right" color="#FFF" size={24} />
                             </Text>
                         </View>
-                        <Text style={styles.buttonText}>Gerar Código</Text>
+                        <Text style={styles.buttonText}>Exportar</Text>
                     </RectButton>
                 </View>
             </ImageBackground>
@@ -58,23 +69,45 @@ const Home = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 32,
+        padding: 50,
         alignItems: 'center',
     },
 
     main: {
-        flex: 1,
-        justifyContent: 'center',
+        display: 'flex',
+        flexDirection: 'row',
+        width: 320,
+        height: 150,
+        borderWidth: 2,
+        borderColor: 'black',
+        borderStyle: 'solid',
+        borderRadius: 10,
+        backgroundColor: 'white',
+    },
 
+    codigo: {
+        width: 160,
+        height: 80,
+    },
+    
+    logo: {
+        alignItems: 'flex-start',
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 1,
+    },
+    bloco:{
+        display: 'flex',
+        flexDirection: 'column',
     },
 
     title: {
         color: '#030303',
-        fontSize: 32,
+        fontSize: 23,
         fontFamily: 'Poppins_700Bold',
         textAlign: 'center',
         maxWidth: 268,
-        marginTop: 64,
+        marginTop: 10,
     },
 
     description: {
@@ -86,12 +119,14 @@ const styles = StyleSheet.create({
         lineHeight: 24,
     },
 
-    footer: {},
+    footer: {
+        marginTop: 30,
+    },
 
     select: {},
 
     input: {
-        height: 60,
+        height: 50,
         width: 300,
         backgroundColor: '#FFF',
         borderRadius: 10,
@@ -102,7 +137,7 @@ const styles = StyleSheet.create({
 
     button: {
         backgroundColor: '#0685D2',
-        height: 60,
+        height: 50,
         flexDirection: 'row',
         borderRadius: 10,
         overflow: 'hidden',
