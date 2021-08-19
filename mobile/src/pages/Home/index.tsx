@@ -6,22 +6,6 @@ import { RectButton } from 'react-native-gesture-handler';
 const Home = () => {
     const [inputText, setInputText] = useState('');
 
-    function addZeroes() {
-        var num = inputText;
-        var len = 8;
-
-        var numberWithZeroes = String(num);
-        var counter = numberWithZeroes.length;
-          
-      while(counter < len) {
-        numberWithZeroes = "0" + numberWithZeroes;
-        counter++;
-      
-        }
-      
-      return numberWithZeroes;
-    };
-
 
     return (
         <KeyboardAvoidingView 
@@ -46,7 +30,7 @@ const Home = () => {
                     <Image
                         style={styles.codigo}
                         source={{
-                        uri: `https://barcode.tec-it.com/barcode.ashx?data=${addZeroes}&code=Code39&dpi=600`,
+                        uri: `https://barcode.tec-it.com/barcode.ashx?data=${("00000000" + inputText).slice(-8)}&code=Code39&dpi=600`,
                         }}
                     />  
                 </View>
@@ -80,7 +64,7 @@ const Home = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 50,
+        padding: 200,
         alignItems: 'center',
     },
 
@@ -88,8 +72,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         width: 320,
-        height: 150,
-        borderWidth: 2,
+        height: 125,
+        borderWidth: 1.3,
         borderColor: 'black',
         borderStyle: 'solid',
         borderRadius: 10,
@@ -97,15 +81,17 @@ const styles = StyleSheet.create({
     },
 
     codigo: {
-        width: 160,
-        height: 80,
+        width: 200,
+        height: 75,
     },
     
     logo: {
         alignItems: 'flex-start',
         display: 'flex',
         flexDirection: 'row',
-        marginTop: 1,
+        marginTop: 5,
+        width: 110,
+        height: 110,
     },
     bloco:{
         display: 'flex',
@@ -114,21 +100,20 @@ const styles = StyleSheet.create({
 
     title: {
         color: '#030303',
-        fontSize: 23,
+        fontSize: 24,
         fontFamily: 'Poppins_700Bold',
         textAlign: 'center',
         maxWidth: 268,
-        marginTop: 10,
+        marginTop: 2,
     },
 
     footer: {
         marginTop: 30,
     },
 
-    select: {},
 
     input: {
-        height: 50,
+        height: 55,
         width: 300,
         backgroundColor: '#FFF',
         borderRadius: 10,
@@ -139,7 +124,7 @@ const styles = StyleSheet.create({
 
     button: {
         backgroundColor: '#0685D2',
-        height: 50,
+        height: 55,
         flexDirection: 'row',
         borderRadius: 10,
         overflow: 'hidden',
@@ -148,8 +133,9 @@ const styles = StyleSheet.create({
     },
 
     buttonIcon: {
-        height: 60,
+        height: 55,
         width: 60,
+        borderRadius: 10,
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
         justifyContent: 'center',
         alignItems: 'center',
@@ -165,5 +151,5 @@ const styles = StyleSheet.create({
     }
 
 });
-
+     
 export default Home;
