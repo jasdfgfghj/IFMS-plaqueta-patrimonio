@@ -2,15 +2,26 @@ import React, { useState } from "react";
 import { Feather as Icon } from '@expo/vector-icons';
 import { View, ImageBackground, Text, Image, StyleSheet, TextInput, KeyboardAvoidingView, Platform } from "react-native";
 import { RectButton } from 'react-native-gesture-handler';
-import { useNavigation } from "@react-navigation/native";
 
 const Home = () => {
-    //const [codigo, setCodigo] = useState('');
-    
-    const navigation = useNavigation();
-
     const [inputText, setInputText] = useState('');
-    const [codigoValue, setCodigoValue] = useState('');
+
+    function addZeroes() {
+        var num = inputText;
+        var len = 8;
+
+        var numberWithZeroes = String(num);
+        var counter = numberWithZeroes.length;
+          
+      while(counter < len) {
+        numberWithZeroes = "0" + numberWithZeroes;
+        counter++;
+      
+        }
+      
+      return numberWithZeroes;
+    };
+
 
     return (
         <KeyboardAvoidingView 
@@ -35,7 +46,7 @@ const Home = () => {
                     <Image
                         style={styles.codigo}
                         source={{
-                        uri: 'https://barcode.tec-it.com/barcode.ashx?data=00000000&code=Code39&dpi=600',
+                        uri: `https://barcode.tec-it.com/barcode.ashx?data=${addZeroes}&code=Code39&dpi=600`,
                         }}
                     />  
                 </View>
@@ -108,15 +119,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         maxWidth: 268,
         marginTop: 10,
-    },
-
-    description: {
-        color: '#6C6C80',
-        fontSize: 16,
-        marginTop: 16,
-        fontFamily: 'Roboto_400Regular',
-        maxWidth: 260,
-        lineHeight: 24,
     },
 
     footer: {
