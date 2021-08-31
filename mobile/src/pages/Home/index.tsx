@@ -2,10 +2,21 @@ import React, { useState } from "react";
 import { Feather as Icon } from '@expo/vector-icons';
 import { View, ImageBackground, Text, Image, StyleSheet, TextInput, KeyboardAvoidingView, Platform } from "react-native";
 import { RectButton } from 'react-native-gesture-handler';
+import {captureScreen} from "react-native-view-shot";
 
 const Home = () => {
     const [inputText, setInputText] = useState('');
-
+      
+    const takeScreenShot = () => {
+        captureScreen({
+          format: 'jpg',
+          quality: 0.8, 
+        }).then(
+          (uri) => console.log("Imagem salva", uri),
+          (error) => console.error('Ocorreu um erro na captura da imagem', error),
+        );
+ 
+      };
 
     return (
         <KeyboardAvoidingView 
@@ -47,7 +58,7 @@ const Home = () => {
                         onChangeText={(inputText) => setInputText(inputText)}
                 />
                     
-                    <RectButton style={styles.button} onPress={() => setInputText(inputText)}>
+                    <RectButton style={styles.button} onPress={takeScreenShot}>
                         <View style={styles.buttonIcon}>
                             <Text>
                                 <Icon name="arrow-right" color="#FFF" size={24} />
@@ -64,7 +75,7 @@ const Home = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 200,
+        padding: 100,
         alignItems: 'center',
     },
 
@@ -108,7 +119,7 @@ const styles = StyleSheet.create({
     },
 
     footer: {
-        marginTop: 30,
+        marginTop: 20,
     },
 
 
