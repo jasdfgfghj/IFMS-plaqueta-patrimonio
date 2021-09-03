@@ -1,55 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Feather as Icon } from '@expo/vector-icons';
-import { View, ImageBackground, Text, Image, StyleSheet, TextInput, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Text, Image, StyleSheet, TextInput, KeyboardAvoidingView, Platform } from "react-native";
 import { RectButton } from 'react-native-gesture-handler';
-import {captureScreen} from "react-native-view-shot";
+import { captureRef } from "react-native-view-shot";
+import * as Sharing from 'expo-sharing';
 
 const Home = () => {
     const [inputText, setInputText] = useState('');
       
-    const takeScreenShot = () => {
-        captureScreen({
-          format: 'jpg',
-          quality: 0.8, 
-        }).then(
-          (uri) => console.log("Imagem salva", uri),
-          (error) => console.error('Ocorreu um erro na captura da imagem', error),
-        );
- 
-      };
+    const screenShotViewRef = useRef(null);
+
+    //essa função aqui tira screenshot apenas do componente do Código de Barras
+    const takeScreenShot2 = async () => {
+        const result = await captureRef(screenShotViewRef, {
+            result: 'tmpfile',
+            quality: 1,
+            format: 'png',
+        });
+
+        console.log('Imagem salva localmente', result);
+        await Sharing.shareAsync(result);
+    }
 
     return (
-        <KeyboardAvoidingView 
-            style={{flex: 1}} 
-            behavior={Platform.OS === 'android' ? 'height': undefined}
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === 'android' ? 'height' : undefined}
         >
         
-            <ImageBackground 
-                source={require('../../assets/home-background.png')} 
-                style={styles.container}
-                imageStyle={{ width: 274, height: 500 }}
-            >
-
-                <View style={styles.main}>
-                        <Image 
-                            style={styles.logo}
-                            source={require('../../assets/logo2.png')} 
-                        />
-
-                <View style={styles.bloco}>
-                    <Text style={styles.title}>PATRIMÔNIO</Text>
+            <View style={styles.container}>
+                <View ref={screenShotViewRef} style={styles.main}>
                     <Image
-                        style={styles.codigo}
-                        source={{
-                        uri: `https://barcode.tec-it.com/barcode.ashx?data=${("00000000" + inputText).slice(-8)}&code=Code39&dpi=600`,
-                        }}
-                    />  
-                </View>
-
+                        style={styles.logo}
+                        source={require('../../assets/logo.png')}
+                    />
+                    <View style={styles.bloco}>
+                        <Text style={styles.title}>PATRIMÔNIO</Text>
+                        <Image
+                            style={styles.codigo}
+                            source={{
+                                uri: `https://barcode.tec-it.com/barcode.ashx?data=${("00000000" + inputText).slice(-8)}&code=Code39&dpi=600`,
+                            }}
+                        />
+                    </View>
                 </View>
                 
                 <View style={styles.footer}>
-                    <TextInput 
+                    <TextInput
                         style={styles.input}
                         placeholder="Código de barras"
                         value={inputText}
@@ -58,7 +55,7 @@ const Home = () => {
                         onChangeText={(inputText) => setInputText(inputText)}
                 />
                     
-                    <RectButton style={styles.button} onPress={takeScreenShot}>
+                    <RectButton style={styles.button} onPress={takeScreenShot2}>
                         <View style={styles.buttonIcon}>
                             <Text>
                                 <Icon name="arrow-right" color="#FFF" size={24} />
@@ -67,7 +64,8 @@ const Home = () => {
                         <Text style={styles.buttonText}>Exportar</Text>
                     </RectButton>
                 </View>
-            </ImageBackground>
+                
+            </View>
         </KeyboardAvoidingView>
     );
 };
@@ -75,7 +73,7 @@ const Home = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 100,
+        padding: 60,
         alignItems: 'center',
     },
 
@@ -104,7 +102,7 @@ const styles = StyleSheet.create({
         width: 110,
         height: 110,
     },
-    bloco:{
+    bloco: {
         display: 'flex',
         flexDirection: 'column',
     },
